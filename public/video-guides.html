@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agripay — Banking Simulation</title>
+  <link rel="icon" type="image/png" href="image/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-deep:   #1a3d28;
+      --green-mid:    #2d7a50;
+      --green-light:  #7ecba4;
+      --green-logo:   #1e4d30;
+      --cream:        #eeeae0;
+      --cream-light:  #f4f1ea;
+      --white:        #ffffff;
+      --text-dark:    #1a2e20;
+      --text-mid:     #3a5a42;
+      --shadow:       rgba(26,61,40,0.12);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 5%;
+      background: rgba(238,234,224,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(26,61,40,0.07);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 28px var(--shadow); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+    }
+    .logo-box {
+      width: 40px; height: 40px;
+      background: var(--green-logo);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700; font-size: 13px;
+      color: var(--white); letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+    .nav-logo span {
+      font-family: 'Lora', serif;
+      font-weight: 600; font-size: 19px;
+      color: var(--text-dark); letter-spacing: -0.3px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .nav-link {
+      text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      color: var(--text-dark);
+      padding: 8px 18px;
+      border-radius: 50px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover { background: rgba(26,61,40,0.07); }
+
+    .btn-login {
+      font-size: 14px; font-weight: 600;
+      color: var(--green-mid);
+      background: transparent;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.22s;
+    }
+    .btn-login:hover { background: rgba(45,122,80,0.08); }
+
+    .btn-signup {
+      font-size: 14px; font-weight: 600;
+      color: var(--white);
+      background: var(--green-mid);
+      border: none;
+      padding: 9px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.22s;
+    }
+    .btn-signup:hover { background: var(--green-deep); }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 130px 6% 80px;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    /* Green radial glow top-right — like the screenshot */
+    .hero-glow-tr {
+      position: absolute;
+      top: -60px; right: -100px;
+      width: 550px; height: 550px;
+      background: radial-gradient(circle at 55% 35%, rgba(126,203,164,0.30) 0%, transparent 62%);
+      pointer-events: none;
+    }
+    .hero-glow-bl {
+      position: absolute;
+      bottom: -40px; left: -60px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(126,203,164,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.60);
+      border: 1px solid rgba(45,122,80,0.20);
+      color: var(--text-dark);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 7px 22px;
+      border-radius: 50px;
+      margin-bottom: 38px;
+      animation: fadeUp 0.7s ease both;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(54px, 8vw, 100px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -2px;
+      color: var(--text-dark);
+      max-width: 800px;
+      animation: fadeUp 0.8s 0.08s ease both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green-mid);
+    }
+
+    .hero p {
+      position: relative; z-index: 1;
+      font-size: 17px;
+      color: #4a5e4e;
+      max-width: 500px;
+      margin: 26px auto 0;
+      line-height: 1.78;
+      font-weight: 400;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .hero-cta {
+      position: relative; z-index: 1;
+      display: flex;
+      gap: 14px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.22s ease both;
+    }
+    .cta-primary {
+      padding: 15px 36px;
+      background: var(--green-deep);
+      color: var(--white);
+      border-radius: 50px;
+      font-weight: 600; font-size: 15px;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: 2px solid var(--green-deep);
+    }
+    .cta-primary:hover {
+      background: var(--green-mid);
+      border-color: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(26,61,40,0.22);
+    }
+    .cta-secondary {
+      padding: 15px 36px;
+      border: 2px solid rgba(26,61,40,0.32);
+      color: var(--text-dark);
+      border-radius: 50px;
+      font-weight: 600; font-size: 15px;
+      text-decoration: none;
+      transition: all 0.25s;
+      background: rgba(255,255,255,0.42);
+      backdrop-filter: blur(6px);
+    }
+    .cta-secondary:hover {
+      background: var(--green-deep);
+      color: var(--white);
+      border-color: var(--green-deep);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ─── SECTION WRAPPER ────────────────────────────────── */
+    section { padding: 100px 6%; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--green-mid); margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800; line-height: 1.12;
+      letter-spacing: -0.8px; color: var(--text-dark);
+      margin-bottom: 18px;
+    }
+    .section-sub {
+      font-size: 16px; color: #4a5e4e;
+      font-weight: 400; max-width: 500px; line-height: 1.78;
+    }
+
+    /* ─── VIDEOS SECTION ─────────────────────────────────── */
+    .videos-section { background: var(--green-deep); color: var(--white); }
+    .videos-section .section-label { color: var(--green-light); }
+    .videos-section .section-title { color: var(--white); }
+    .videos-section .section-sub   { color: rgba(255,255,255,0.62); }
+
+    .videos-header { text-align: center; margin-bottom: 60px; }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 26px; max-width: 1200px; margin: 0 auto;
+    }
+
+    .video-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+    }
+    .video-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.4); }
+
+    .video-embed {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%; background: #000;
+    }
+    .video-embed iframe, .video-embed video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      background: linear-gradient(135deg, #0d5232, #1a7a4a);
+      color: rgba(255,255,255,0.85);
+      font-size: 13px; font-weight: 500;
+      text-align: center; padding: 20px;
+    }
+    .play-icon {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .video-card:hover .play-icon { background: rgba(255,255,255,0.25); }
+    .play-icon svg { width:22px; height:22px; fill:white; margin-left:3px; }
+
+    .video-info { padding: 20px 22px 24px; }
+    .video-tag { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--green-light); margin-bottom:7px; }
+    .video-title { font-family:'Lora',serif; font-weight:700; font-size:16px; color:var(--white); margin-bottom:7px; line-height:1.3; }
+    .video-desc { font-size:13px; color:rgba(255,255,255,0.52); line-height:1.6; }
+
+    .video-guide {
+      max-width:720px; margin:52px auto 0;
+      background:rgba(255,255,255,0.05);
+      border:1px dashed rgba(255,255,255,0.18);
+      border-radius:14px; padding:26px 30px; text-align:center;
+    }
+    .video-guide h4 { font-family:'Lora',serif; font-size:15px; font-weight:700; color:var(--green-light); margin-bottom:10px; }
+    .video-guide p { font-size:13px; color:rgba(255,255,255,0.55); line-height:1.7; }
+    .video-guide code { background:rgba(255,255,255,0.1); padding:2px 7px; border-radius:4px; font-size:12px; color:var(--green-light); }
+
+    /* ─── FEATURES ───────────────────────────────────────── */
+    .features-section { background: var(--cream-light); }
+    .features-inner {
+      max-width:1200px; margin:0 auto;
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:80px; align-items:center;
+    }
+    .features-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .feat-card {
+      background:var(--white); border-radius:16px; padding:26px 20px;
+      transition:transform 0.25s, box-shadow 0.25s;
+      border:1px solid rgba(26,61,40,0.07);
+    }
+    .feat-card:hover { transform:translateY(-4px); box-shadow:0 10px 26px var(--shadow); }
+    .feat-icon {
+      width:44px; height:44px; background:rgba(45,122,80,0.1);
+      border-radius:11px; display:flex; align-items:center; justify-content:center;
+      margin-bottom:12px; font-size:20px;
+    }
+    .feat-card h3 { font-family:'Lora',serif; font-weight:700; font-size:14px; color:var(--text-dark); margin-bottom:5px; }
+    .feat-card p { font-size:13px; color:#5a6e5e; line-height:1.6; }
+
+    /* ─── STATS ──────────────────────────────────────────── */
+    .stats-band { background:linear-gradient(135deg, var(--green-mid), var(--green-deep)); padding:56px 6%; }
+    .stats-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-around; flex-wrap:wrap; gap:36px; text-align:center; }
+    .stat-item h2 { font-family:'Playfair Display',serif; font-size:50px; font-weight:900; color:var(--white); line-height:1; }
+    .stat-item p { font-size:13px; color:rgba(255,255,255,0.62); margin-top:6px; }
+
+    /* ─── CTA BAND ───────────────────────────────────────── */
+    .cta-band { background:var(--cream); text-align:center; padding:100px 6%; }
+    .cta-band .section-title { margin-bottom:10px; }
+    .cta-band > p { font-size:16px; color:#4a5e4e; margin-bottom:38px; }
+    .cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer { background:var(--green-deep); color:rgba(255,255,255,0.5); text-align:center; padding:30px 6%; font-size:13px; }
+    footer a { color:var(--green-light); text-decoration:none; }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────── */
+    .reveal { opacity:0; transform:translateY(36px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .features-inner { grid-template-columns:1fr; gap:36px; }
+      .features-grid  { grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 520px) {
+      nav { padding: 14px 4%; }
+      .nav-link { padding: 7px 10px; font-size: 13px; }
+      .btn-login { padding: 7px 12px; font-size: 13px; }
+      .btn-signup { padding: 7px 14px; font-size: 13px; }
+      .nav-logo span { font-size: 17px; }
+      .logo-box { width: 34px; height: 34px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════════ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <div class="logo-box">Ag</div>
+    <span>Agripay</span>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="btn-login" href="login.html">Login</a>
+    <a class="btn-signup" href="register.html">Sign Up</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow-tr"></div>
+  <div class="hero-glow-bl"></div>
+
+  <span class="hero-badge">🌿 Banking Simulation Platform</span>
+
+  <h1>Learn Real Banking.<br><em>Risk-Free.</em></h1>
+
+  <p>Agripay is an interactive banking simulator — practice transfers, manage cards, use the ATM, and master your finances without touching real money.</p>
+
+  <div class="hero-cta">
+    <a class="cta-primary"  href="register.html">Get Started Free</a>
+    <a class="cta-secondary" href="Video Guides.html">Watch How It Works</a>
+  </div>
+</section>
+
+<!-- ═══ VIDEOS ════════════════════════════════════════════ -->
+<section class="videos-section" id="videos">
+  <div class="videos-header reveal">
+    <span class="section-label">Intro Videos</span>
+    <h2 class="section-title">See Agripay in Action</h2>
+    <p class="section-sub" style="margin:0 auto;">Watch our short walkthroughs and understand every feature before you even log in.</p>
+  </div>
+
+  <div class="videos-grid">
+    <div class="video-card reveal">
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span>Paste your YouTube / Vimeo embed<br>or local &lt;video&gt; tag here</span>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Getting Started</div>
+        <div class="video-title">Platform Overview</div>
+        <div class="video-desc">A 2-minute tour of the Agripay dashboard, accounts, and navigation.</div>
+      </div>
+    </div>
+    <div class="video-card reveal">
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span>Paste your YouTube / Vimeo embed<br>or local &lt;video&gt; tag here</span>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Transfers</div>
+        <div class="video-title">How to Transfer Money</div>
+        <div class="video-desc">Send funds between accounts and understand transaction history.</div>
+      </div>
+    </div>
+    <div class="video-card reveal">
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span>Paste your YouTube / Vimeo embed<br>or local &lt;video&gt; tag here</span>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">Cards</div>
+        <div class="video-title">Managing Your Cards</div>
+        <div class="video-desc">Activate, block, and set spending limits on your virtual cards.</div>
+      </div>
+    </div>
+    <div class="video-card reveal">
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <span>Paste your YouTube / Vimeo embed<br>or local &lt;video&gt; tag here</span>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-tag">ATM Simulator</div>
+        <div class="video-title">Using the ATM</div>
+        <div class="video-desc">Withdraw and deposit through our realistic ATM simulation interface.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-guide reveal">
+    <h4>📹 How to add your videos</h4>
+    <p>
+      For <strong>YouTube</strong>: copy the embed URL (<code>youtube.com/embed/VIDEO_ID</code>) and paste as <code>&lt;iframe src="..."&gt;</code> inside any <code>.video-embed</code> div.<br><br>
+      For <strong>local files</strong>: upload your <code>.mp4</code> to <code>public/videos/</code> and use <code>&lt;video controls src="videos/yourfile.mp4"&gt;</code>.<br><br>
+      You can add or remove <code>.video-card</code> blocks freely — the grid adjusts automatically.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ══════════════════════════════════════════ -->
+<section class="features-section" id="features">
+  <div class="features-inner">
+    <div class="reveal">
+      <span class="section-label">Why Agripay</span>
+      <h2 class="section-title">Everything a real bank does.<br>Without the risk.</h2>
+      <p class="section-sub">Built for students, educators, and anyone who wants to understand modern banking — hands-on.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card reveal"><div class="feat-icon">🔐</div><h3>Secure Auth</h3><p>OTP verification and session protection on every login.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">💸</div><h3>Transfers</h3><p>Instant money moves between simulated accounts in real time.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">💳</div><h3>Card Control</h3><p>Add, freeze, or remove virtual debit and credit cards.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">🏧</div><h3>ATM Simulator</h3><p>Realistic withdraw and deposit flow with PIN authentication.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">📊</div><h3>Dashboard</h3><p>Live balance, transaction history, and account overview.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">📱</div><h3>Fully Responsive</h3><p>Works perfectly on desktop, tablet, and mobile.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ══════════════════════════════════════════════ -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item reveal"><h2>6+</h2><p>Core Features</p></div>
+    <div class="stat-item reveal"><h2>100%</h2><p>Risk Free</p></div>
+    <div class="stat-item reveal"><h2>∞</h2><p>Practice Sessions</p></div>
+    <div class="stat-item reveal"><h2>0</h2><p>Real Money Involved</p></div>
+  </div>
+</div>
+
+<!-- ═══ CTA BAND ══════════════════════════════════════════ -->
+<section class="cta-band">
+  <span class="section-label reveal">Ready?</span>
+  <h2 class="section-title reveal">Start your simulation today.</h2>
+  <p class="reveal">Create a free account in seconds and explore every feature.</p>
+  <div class="cta-row reveal">
+    <a class="cta-primary"  href="register.html">Create Free Account</a>
+    <a class="cta-secondary" href="login.html">Already have one? Login</a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<footer>
+  <p>© 2025 Agripay — Banking Simulation Platform &nbsp;|&nbsp;
+     <a href="about.html">About</a> &nbsp;·&nbsp;
+     <a href="contact.html">Contact</a> &nbsp;·&nbsp;
+     Educational use only — not a real financial institution.
+  </p>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
