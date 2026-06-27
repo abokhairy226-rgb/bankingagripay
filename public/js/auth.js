@@ -269,7 +269,7 @@ if (!/^01[0-9]{9}$/.test(phone)) {
 
 try {
 
-  const res = await fetch(`https://www.agripaylab.online/register`, {
+  const res = await fetch(`https://agripaylab.online/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

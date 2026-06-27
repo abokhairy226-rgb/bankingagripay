@@ -57,7 +57,7 @@ if (cardPassword.length !== 4) {
   messageDiv.className = "message error";
   return;
 }
-    const response = await fetch(`https://www.agripaylab.online/add-card`,{
+    const response = await fetch(`https://agripaylab.online/add-card`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json"

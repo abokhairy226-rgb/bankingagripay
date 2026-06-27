@@ -133,7 +133,7 @@ generateBtn.disabled = true;
     
 
     try {
-      const res = await fetch(`https://www.agripaylab.online/atm/generate-otp`, {
+      const res = await fetch(`https://agripaylab.online/atm/generate-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -196,7 +196,7 @@ if (currentUser && userNameDisplay && accountNumberDisplay) {
     try {
 
       const res = await fetch(
-        `https://www.agripaylab.online/card/${currentUser._id}`
+        `https://agripaylab.online/card/${currentUser._id}`
       );
 
       if (res.ok) {
@@ -353,7 +353,7 @@ transactionType.addEventListener("change", () => {
       }
 
       try {
-        const res = await fetch(`https://www.agripaylab.online/atm/generate-otp`, {
+        const res = await fetch(`https://agripaylab.online/atm/generate-otp`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -469,7 +469,7 @@ if (depositBtn) {
     }
 
     try {
-      const res = await fetch(`https://www.agripaylab.online/atm/generate-deposit-otp`, {
+      const res = await fetch(`https://agripaylab.online/atm/generate-deposit-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -532,7 +532,7 @@ if (depositResendBtn) {
     try {
 
       const res = await fetch(
-        `https://www.agripaylab.online/atm/generate-deposit-otp`,
+        `https://agripaylab.online/atm/generate-deposit-otp`,
         {
           method: "POST",
           headers: {

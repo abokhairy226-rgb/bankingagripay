@@ -59,7 +59,7 @@ if (depositSession) {
       verifyBtn.disabled = true;
       showMessage("Verifying...", "success");
 
-      const res = await fetch(`https://www.agripaylab.online/atm/verify-deposit-otp`, {
+      const res = await fetch(`https://agripaylab.online/atm/verify-deposit-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -112,7 +112,7 @@ if (depositSession) {
       insertBtn.disabled = true;
       showMessage("Processing deposit...", "success");
 
-      const res = await fetch(`https://www.agripaylab.online/atm/complete-deposit`, {
+      const res = await fetch(`https://agripaylab.online/atm/complete-deposit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
