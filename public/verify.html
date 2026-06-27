@@ -367,7 +367,7 @@ document.getElementById("verifyBtn").addEventListener("click", async () => {
   btn.textContent = "Verifying...";
 
   try {
-    const res = await fetch("https://www.agripaylab.online/verify-email", {
+    const res = await fetch("https://agripaylab.online/verify-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -418,7 +418,7 @@ document.getElementById("changeEmailBtn")
 
   try {
 
-    await fetch(`https://www.agripaylab.online/delete-unverified-user/${userId}`, {
+    await fetch(`https://agripaylab.online/delete-unverified-user/${userId}`, {
       method: "DELETE"
     });
 
