@@ -176,7 +176,7 @@ if (existUser) {
 }
 
 
-console.log("existUser:", existUser); // 👈 حطه هنا
+console.log("existUser:", existUser); 
 
     if (existUser) {
       return res.status(409).json({
@@ -208,7 +208,7 @@ newUser.emailOtp = otp.toString();
 newUser.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
 
-// 🔥 ابعت OTP الأول
+//  ابعت OTP الأول
 try {
 
   await sendOtpEmail(email, otp);
@@ -525,8 +525,7 @@ if (user.loginAttempts >= 4) {
     return res.status(400).json({ message: "Insufficient balance" });
 
 
-    // SAME BANK
-    // SAME BANK
+    
     if (transferType === "internal") {
 
     const receiverCard = await Card.findOne({
@@ -639,7 +638,7 @@ if (user.loginAttempts >= 4) {
         if (!/^[0-9]{16}$/.test(accountNumber)) {
           return res.status(400).json({ message: "Card number must be exactly 16 digits" });
         }
-        // 🚨 منع تكرار رقم الحساب
+        //  منع تكرار رقم الحساب
                const existingCard = await Card.findOne({ accountNumber });
 
        if (existingCard) {
