@@ -320,7 +320,7 @@ resendBtn.addEventListener("click", async () => {
     resendBtn.style.pointerEvents = "none";
     resendBtn.style.opacity = "0.5";
 
-    const res = await fetch("https://www.agripaylab.online/resend-otp", {
+    const res = await fetch("https://agripaylab.online/resend-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
